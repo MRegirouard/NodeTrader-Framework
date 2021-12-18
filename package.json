@@ -1,0 +1,31 @@
+{
+  "name": "nodetrader-framework",
+  "version": "1.0.0",
+  "description": "A Node.js cryptocurrency trading bot framework.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MRegirouard/NodeTrader-Framework.git"
+  },
+  "keywords": [
+    "test",
+    "cryptocurrency",
+    "trader",
+    "automatic",
+    "bitcoin",
+    "money",
+    "portfolio",
+    "kucoin",
+    "discord",
+    "framework"
+  ],
+  "author": "MRegirouard",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/MRegirouard/NodeTrader-Framework/issues"
+  },
+  "homepage": "https://github.com/MRegirouard/NodeTrader-Framework#readme"
+}
