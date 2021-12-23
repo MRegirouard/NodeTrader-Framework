@@ -30,6 +30,7 @@
   "homepage": "https://github.com/MRegirouard/NodeTrader-Framework#readme",
   "dependencies": {
     "argparse": "^2.0.1",
+    "discord.js": "^13.3.1",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5"
   }
