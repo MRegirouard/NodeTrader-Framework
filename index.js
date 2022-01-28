@@ -13,4 +13,4 @@ const parser = new ArgumentParser({ description: 'A Node.js cryptocurrency tradi
 const args = parser.parse_args()
 
 log.debug('Arguments parsed.')
-log.debug('Arguments:', args)
+log.debug('Arguments: ' + args)
