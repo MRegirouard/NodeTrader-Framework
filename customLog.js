@@ -41,6 +41,7 @@ const log = winston.createLogger(
 		new winston.transports.Console(
 		{
 			format: winston.format.combine(capsFormat, winston.format.colorize(), customFormat),
+			level: 'warn',
 		})
 	]
 })
