@@ -12,11 +12,20 @@ const commands = ['help']
 
 const parser = new ArgumentParser({ description: 'A Node.js cryptocurrency trading bot framework.' })
 parser.add_argument('command', { choices: commands, help: 'Command to execute.' })
+parser.add_argument('-l', '--logging', { choices: ['error', 'warn', 'info', 'verbose', 'debug', 'silly'], default: 'warn', help: 'Set the console logging level. Defaults to warn.' })
 
 const args = parser.parse_args()
 
 log.debug('Arguments parsed.')
 log.debug('Arguments: ' + args)
+
+if (args.logging)
+{
+	log.debug('Setting console logging level to ' + args.logging)
+	log.transports[1].level = args.logging
+	log.silly('Console log level is now ' + log.transports[1].level)
+}
+
 log.verbose('Running command: ' + args.command)
 
 switch (args.command)
