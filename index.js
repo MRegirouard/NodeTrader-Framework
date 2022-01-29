@@ -25,7 +25,6 @@ switch (args.command)
 	default:
 		log.verbose('Printing command help text...')
 		parser.print_help()
-		log.debug('Printed command help text. Exiting program with code 0.')
-		process.exit(0)
+		log.debug('Printed command help text. Exiting program with code 0.', () => process.exit(0))
 		break;
 }
