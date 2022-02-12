@@ -4,7 +4,10 @@
   "description": "A Node.js cryptocurrency trading bot framework.",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "live-build": "tsc --watch",
+    "start": "node built/index.js"
   },
   "repository": {
     "type": "git",
