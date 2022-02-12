@@ -1,4 +1,4 @@
-const log = require('./customLog.js')
+import log from "./customLog"
 
 log.info('')
 log.info('Starting NodeTrader Framework')

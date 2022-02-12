@@ -2,11 +2,11 @@
  * A custom logger for this project 
  */
 
-const winston = require('winston')
-const rotateFile = require('winston-daily-rotate-file')
+import * as winston from 'winston';
+import * as DailyRotateFile from 'winston-daily-rotate-file';
 
 // Create a custom log format that prints the timestamp, level, and message in a formated way
-const customFormat = winston.format.printf((info) =>
+const customFormat = winston.format.printf((info : winston.LogEntry) =>
 {
 	var spaceVal = 7
 
@@ -21,19 +21,19 @@ const customFormat = winston.format.printf((info) =>
 })
 
 // A custom log format to capitalize the log level
-const capsFormat = winston.format((info) =>
+const capsFormat = winston.format((info : winston.LogEntry) =>
 {
 	info.level = info.level.toUpperCase()
 	return info
 })()
 
 // Create the logger
-const log = winston.createLogger(
+const log : winston.Logger = winston.createLogger(
 {
 	exitOnError: false,
 	level: 'silly',
 	transports: [
-		new rotateFile(
+		new DailyRotateFile(
 		{
 			filename: 'logs/%DATE%.log',
 			format: winston.format.combine(capsFormat, customFormat),
@@ -46,4 +46,4 @@ const log = winston.createLogger(
 	]
 })
 
-module.exports = log
+export default log
