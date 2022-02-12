@@ -6,7 +6,8 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "noImplicitAny": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "target": "es6",
   },
   "include": ["./src/**/*"],
 }
