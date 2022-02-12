@@ -105,3 +105,6 @@ dist
 
 # Log file folder
 logs/
+
+# Typescript build output folder
+built/
