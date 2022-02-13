@@ -17,7 +17,27 @@ const customFormat = winston.format.printf((info : winston.LogEntry) =>
 	info.level = info.level.padEnd(spaceVal, ' ')
 	info.timestamp = new Date().toLocaleString('en-US', { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
 
-	return `[ ${info.timestamp} ] [ ${info.level} ] ${info.message}` // Return the formatted message
+	if (info.tradingName) // Logs from trading algorithms should display the trading name
+	{
+		info.tradingName = info.tradingName.padStart(info.tradingName.length + Math.floor((10 - info.tradingName.length) / 2), ' ')
+		info.tradingName = info.tradingName.padEnd(10, ' ')
+
+		if (spaceVal === 17) // If we need to add color codes
+		{
+			if (info.isUser) // Yellow for user messages
+				info.tradingName = '\u001b[33m' + info.tradingName
+			else // Blue for system messages
+				info.tradingName = '\u001b[34m' + info.tradingName
+
+			info.tradingName += '\x1B[39m' // Reset color
+		}
+
+		return `[ ${info.timestamp} ] [ ${info.level} ] [ ${info.tradingName} ] ${info.message}`
+	}
+	else
+	{
+		return `[ ${info.timestamp} ] [ ${info.level} ] ${info.message}`
+	}
 })
 
 // A custom log format to capitalize the log level
