@@ -18,6 +18,10 @@ class VarChangedEvent<T>
 	 * (optionally) the new value, and (optionally) the date the change
 	 * occurred on. If no new value is provided, the current value is used.
 	 * If no date is provided, the current date is used.
+	 * @param algoVar The AlgoVar that changed.
+	 * @param oldValue The value prior to the change.
+	 * @param newValue The new value of the AlgoVar. Defaults to algoVar.value.
+	 * @param date The date the change occurred on. Defaults to new Date().
 	 */
 	constructor(algoVar: AlgoVar<T>, oldValue: T, newValue: T = null, date: Date = null)
 	{
@@ -42,6 +46,8 @@ class VarChangedEvent<T>
 
 	/**
 	 * Create a new AlgoVar, with the given name and initial value.
+	 * @param name The name of the variable.
+	 * @param value The initial value of the variable.
 	 */
 	constructor(name : string, value : T)
 	{
@@ -52,6 +58,7 @@ class VarChangedEvent<T>
 
 	/**
 	 * Get the current value of the variable.
+	 * @returns The current value of the variable.
 	 */
 	get value() : T
 	{
@@ -62,6 +69,7 @@ class VarChangedEvent<T>
 	 * Set the current value of the variable.
 	 * Emits a 'changed' event with the old value and the new value,
 	 * regardless of whether the value actually changed.
+	 * @param value The new value of the variable.
 	 */
 	set value(value : T)
 	{
