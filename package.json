@@ -33,6 +33,7 @@
   "homepage": "https://github.com/MRegirouard/NodeTrader-Framework#readme",
   "dependencies": {
     "argparse": "^2.0.1",
+    "ccxt": "^1.77.51",
     "discord.js": "^13.3.1",
     "sqlite3": "^4.2.0",
     "winston": "^3.3.3",
