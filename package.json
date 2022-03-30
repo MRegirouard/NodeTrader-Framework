@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/MRegirouard/NodeTrader-Framework#readme",
   "dependencies": {
+    "@iofate/kucoin-ws": "^1.5.0",
     "argparse": "^2.0.1",
     "ccxt": "^1.77.51",
     "discord.js": "^13.3.1",
