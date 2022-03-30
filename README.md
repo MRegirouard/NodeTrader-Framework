@@ -24,6 +24,11 @@ logs/  # Log files, separated by date
 src/  # Source code
   index.ts  # Entry script
   customLog.js  # Custom Winston logger for this project
+  AlgoVar.ts # Algorithm variable class, to track variable changes for the algorithm
+  AlgoParam.ts # Algorithm parameter class, to customize and train algorithms
+  Order.ts # Order class, to track orders made by the algorithms
+  Algorithm.ts # Algorithm base class
+  DataManager.ts # Data manager class, for fetching price data
   
 algorithms/  # User-generated trading algorithm
   Algo1/  # The algorithm "Algo1"
