@@ -1,7 +1,7 @@
 import { EventEmitter } from "events"
 
 /**
- * Stores data reguarding an AgoVar change, storing the AlgoVar,
+ * Stores data reguarding an AlgoVar change, storing the AlgoVar,
  * the old and new values, and the date the change occurred on.
  */
 class VarChangedEvent<T>
