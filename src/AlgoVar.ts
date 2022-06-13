@@ -39,8 +39,8 @@ class VarChangedEvent<T>
  * Emits a 'changed' event when the value is changed to a new value,
  * to allow for logging and storing the value in a database.
  */
- class AlgoVar<T> extends EventEmitter
- {
+class AlgoVar<T> extends EventEmitter
+{
 	public readonly name : string // The name of the variable
 	private _value : T // The current value of the variable
 
@@ -77,7 +77,7 @@ class VarChangedEvent<T>
 		this._value = value
 		this.emit('changed', changeEvent)
 	}
- }
+}
 
 export { AlgoVar, VarChangedEvent }
 export default AlgoVar
