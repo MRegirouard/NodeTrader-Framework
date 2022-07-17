@@ -8,6 +8,7 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "target": "es2017",
+    "esModuleInterop": true
   },
   "include": ["./src/**/*"],
 }
