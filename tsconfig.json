@@ -10,5 +10,5 @@
     "target": "es2017",
     "esModuleInterop": true
   },
-  "include": ["./src/**/*", "./pairs/**/*", "./test/**/*"],
+  "include": ["./src/**/*", "./pairs/**/*"],
 }
