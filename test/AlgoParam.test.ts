@@ -23,6 +23,12 @@ describe('AlgoParam', () =>
         expect(algoParam.max).toBe(100)
         expect(algoParam.step).toBe(10)
     })
+
+    test('should throw an error if the max value is below the min value', () =>
+    {
+        expect(() => new AlgoParam('myParam', 50, 100, 0, 10))
+            .toThrowError('Max value (0) must be greater than or equal to min value (100)')
+    })
 })
 
 describe('AlgoParam.value', () =>

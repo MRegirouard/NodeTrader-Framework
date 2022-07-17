@@ -23,6 +23,9 @@ class AlgoParam extends AlgoVar<number>
 		this.min = min
 		this.max = max
 		this.step = step
+
+		if (this.max < this.min)
+			throw new Error(`Max value (${this.max}) must be greater than or equal to min value (${this.min})`)
 	}
 
 	/**
