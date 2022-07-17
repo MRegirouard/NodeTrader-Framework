@@ -2,8 +2,8 @@
  * A custom logger for this project 
  */
 
-import * as winston from 'winston';
-import * as DailyRotateFile from 'winston-daily-rotate-file';
+ import winston from 'winston'
+ import DailyRotateFile from 'winston-daily-rotate-file' 
 
 // Create a custom log format that prints the timestamp, level, and message in a formated way
 const customFormat = winston.format.printf((info : winston.LogEntry) =>
