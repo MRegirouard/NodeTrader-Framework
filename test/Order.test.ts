@@ -10,10 +10,7 @@ describe('new Order', () =>
         expect(order.amount).toBe(100)
         expect(order.type).toBe(OrderType.BUY)
     })
-})
 
-describe('new Order', () =>
-{
     test('should invert a negative buy order', () =>
     {
         const order = new Order(-100, OrderType.BUY)
@@ -21,10 +18,7 @@ describe('new Order', () =>
         expect(order.amount).toBe(100)
         expect(order.type).toBe(OrderType.SELL)
     })
-})
 
-describe('new Order', () =>
-{
     test('should invert a negative sell order', () =>
     {
         const order = new Order(-100, OrderType.SELL)
@@ -45,10 +39,7 @@ describe('Order.combine', () =>
         expect(order.amount).toBe(150)
         expect(order.type).toBe(OrderType.BUY)
     })
-})
 
-describe('Order.combine', () =>
-{
     test('Should combine two sell orders', () =>
     {
         const order1 = new Order(100, OrderType.SELL)
@@ -58,10 +49,7 @@ describe('Order.combine', () =>
         expect(order.amount).toBe(150)
         expect(order.type).toBe(OrderType.SELL)
     })
-})
 
-describe('Order.combine', () =>
-{
     test('Should combine a buy and sell order', () =>
     {
         const order1 = new Order(100, OrderType.BUY)
