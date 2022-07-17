@@ -1,5 +1,6 @@
 import AlgoVar from "../src/AlgoVar"
 import { VarChangedEvent } from "../src/AlgoVar"
+import { EventEmitter } from "events"
 
 describe('AlgoVar', () =>
 {
@@ -7,6 +8,7 @@ describe('AlgoVar', () =>
     {
         const algoVar = new AlgoVar<number>('myVar', 100)
         expect(algoVar)
+        expect(algoVar).toBeInstanceOf(EventEmitter)
         expect(algoVar.value).toBe(100)
         expect(algoVar.name).toBe('myVar')
     })
