@@ -37,6 +37,7 @@
     "argparse": "^2.0.1",
     "ccxt": "^1.77.51",
     "discord.js": "^13.3.1",
+    "moment": "^2.29.4",
     "sqlite3": "^4.2.0",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5"
