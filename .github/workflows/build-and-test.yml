@@ -2,9 +2,7 @@ name: Node.js TypeScript Build and Tests
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
