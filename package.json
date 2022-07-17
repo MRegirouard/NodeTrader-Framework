@@ -4,7 +4,7 @@
   "description": "A Node.js cryptocurrency trading bot framework.",
   "main": "index.ts",
   "scripts": {
-    "test": "jest ./built/test",
+    "test": "jest ./test --config ./test/jest.config.ts",
     "build": "tsc",
     "live-build": "tsc --watch",
     "start": "node built/index.js"
