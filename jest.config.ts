@@ -6,6 +6,8 @@ const config: Config.InitialOptions =
   {
   '^.+\\.tsx?$': 'ts-jest',
   },
+
+  collectCoverageFrom: ['src/*.ts'],
 }
 
 export default config
