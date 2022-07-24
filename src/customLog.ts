@@ -19,6 +19,8 @@ const customFormat = winston.format.printf((info : winston.LogEntry) =>
 	info.timestamp = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
 	info.timestamp = info.timestamp.slice(0, -3) + '.' + date.getMilliseconds().toString().padStart(3, '0') + info.timestamp.slice(-3)
 
+	var log = `[ ${info.timestamp} ] [ ${info.level} ]`
+
 	if (info.tradingName) // Logs from trading algorithms should display the trading name
 	{
 		info.tradingName = info.tradingName.padStart(info.tradingName.length + Math.floor((10 - info.tradingName.length) / 2), ' ')
@@ -34,12 +36,11 @@ const customFormat = winston.format.printf((info : winston.LogEntry) =>
 			info.tradingName += '\x1B[39m' // Reset color
 		}
 
-		return `[ ${info.timestamp} ] [ ${info.level} ] [ ${info.tradingName} ] ${info.message}`
+		log += ` [ ${info.tradingName} ]`
 	}
-	else
-	{
-		return `[ ${info.timestamp} ] [ ${info.level} ] ${info.message}`
-	}
+
+	log += ` ${info.message}`
+	return log
 })
 
 // A custom log format to capitalize the log level
