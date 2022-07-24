@@ -21,6 +21,12 @@ const customFormat = winston.format.printf((info : winston.LogEntry) =>
 
 	var log = `[ ${info.timestamp} ] [ ${info.level} ]`
 
+	if (info.path)
+	{
+		const filename = info.path.split('/').pop()
+		log += ` [ ${filename} ]`
+	}
+
 	if (info.tradingName) // Logs from trading algorithms should display the trading name
 	{
 		info.tradingName = info.tradingName.padStart(info.tradingName.length + Math.floor((10 - info.tradingName.length) / 2), ' ')
