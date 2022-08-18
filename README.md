@@ -2,7 +2,7 @@
 A Node.js cryptocurrency trading bot framework.
 <br><br>
 [![Workflow Status](https://github.com/MRegirouard/NodeTrader-Framework/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/MRegirouard/NodeTrader-Framework/actions/workflows/build-and-test.yml?query=branch%3Amain)
-[![Codecov Report](https://codecov.io/gh/NodeTrader-Framework/branch/main/graph/badge.svg)](https://codecov.io/gh/NodeTrader-Framework)
+[![Codecov Report](https://codecov.io/gh/MRegirouard/NodeTrader-Framework/branch/main/graph/badge.svg)](https://codecov.io/gh/MRegirouard/NodeTrader-Framework)
 
 ## ⚠️ Disclaimer ⚠️
 Any information contained in this repository or documentation is not financial advice. The developer(s) takes no responsibility for the use and misuse of this software and documentation. Users of this code do so at their own risk. Please inspect and monitor code and algorithms carefully, and test before deploying. Trade responsibly.
