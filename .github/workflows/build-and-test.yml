@@ -6,8 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
-    name: Build and Test Project
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Project
+      uses: actions/checkout@v3
+      
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      
+    - name: Install Packages
+      run: npm i
+      
+    - name: Build From TypeScript
+      run: npm run build
+
+  test:
+    name: Test Project and Upload Coverage
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Project
@@ -23,4 +39,9 @@ jobs:
       run: npm run build
       
     - name: Run Tests
-      run: npm test
+      run: npm test -- --coverage
+      
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true
