@@ -18,6 +18,13 @@ NodeTrader Framework is a framework for creating, managing, running, testing, an
 - Database of trades, variable and parameter changes, and prices
 - Graphs with algorithm performance analysis
 - Allow users to just write algorithms
+- Quantitative analysis functionality
+- Live-trading visualization of algorithm and price data
+- Full support for containerization and deploying on Kubernetes
+- Inter-algorithm communication and operation
+- Robustness appropriate for trading with real money
+
+See our [GitHub Project](https://github.com/users/MRegirouard/projects/2) for more details.
 
 ## File Structure
 The main file structure of the project is as follows:
