@@ -30,24 +30,15 @@ See our [GitHub Project](https://github.com/users/MRegirouard/projects/2) for mo
 The main file structure of the project is as follows:
 ```bash
 logs/  # Log files, separated by date
-
-src/  # Source code
-  index.ts  # Entry script
-  customLog.js  # Custom Winston logger for this project
-  AlgoVar.ts # Algorithm variable class, to track variable changes for the algorithm
-  AlgoParam.ts # Algorithm parameter class, to customize and train algorithms
-  Order.ts # Order class, to track orders made by the algorithms
-  Algorithm.ts # Algorithm base class
-  DataManager.ts # Data manager class, for fetching price data
+src/   # TypeScript source code
+test/  # Code tests
+built/ # Compiled JavaScript
   
-algorithms/  # User-generated trading algorithm
+algorithms/  # User-defomed trading algorithms
   Algo1/  # The algorithm "Algo1"
     logs/  # User and system logs specific to this algorithm
     algorithm.ts  # The algorithm code
     config.json  # The algorithm configuration
-    data.db  # Algorithm database
-    
-# Other files
 ```
 
 ## Usage
