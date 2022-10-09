@@ -23,6 +23,7 @@ NodeTrader Framework is a framework for creating, managing, running, testing, an
 - Full support for containerization and deploying on Kubernetes
 - Inter-algorithm communication and operation
 - Robustness appropriate for trading with real money
+- 100% test coverage with Jest and Codecov
 
 See our [GitHub Project](https://github.com/users/MRegirouard/projects/2) for more details.
 
