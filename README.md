@@ -50,6 +50,19 @@ algorithms/  # User-generated trading algorithm
 # Other files
 ```
 
+## Usage
+NodeTrader-Framework can be used in several ways:
+### As a library
+Run algorithms in your own environment for maximum flexibility. Install the npm package and use functions for managing algorithms and data.
+### As a command line tool
+Run commands by invoking `npm start`. NodeTrader-Framework handles the loading of algorithms and calling library functions for you.
+### As a command line interface (CLI)
+Rapidly run commands and view the results in a CLI. Great for analysing algorithm metrics and viewing data.
+### In a container
+Ensure reliability and security by isolating an algorithm inside of a container. Deployable on Kubernetes to ensure your algorithms keep running.
+### As a server
+Start a NodeTrader-Framework process in the background, and send commands to it. Makes starting and stopping algorithms easier.
+
 ## Commands
 NodeTrader can be started with the following commands a possible first argument. Note: With the exception of `help`, these commands are tentative and have not been written yet.
 
