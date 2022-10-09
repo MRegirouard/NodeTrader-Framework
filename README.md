@@ -8,11 +8,11 @@ A Node.js cryptocurrency trading bot framework.
 Any information contained in this repository or documentation is not financial advice. The developer(s) takes no responsibility for the use and misuse of this software and documentation. Users of this code do so at their own risk. Please inspect and monitor code and algorithms carefully, and test before deploying. Trade responsibly.
 
 ## Project Overview
-NodeTrader Framework is a framework for creating, managing, running, testing, and evaluating trading algorithms on KuCoin. Using this software, traders can easily write their own algorithms for trading, without having to worry about API calls and boilerplate code. Traders can test and track the performance of their algorithms and tune them using the automatic parameter tuning feature. NodeTrader's verbose logging and databases make for a robust trading environment that allows users to focus on what matters most: the money.
+NodeTrader Framework is a framework for creating, managing, running, testing, and evaluating trading algorithms. Using this software, traders can easily write their own algorithms for trading, without having to worry about API calls and boilerplate code. Traders can test and track the performance of their algorithms and tune them using the automatic parameter tuning feature. NodeTrader's verbose logging and databases make for a robust trading environment that allows users to focus on what matters most: the money.
 
 ## Goals
 - Creation and deletion of algorithms
-- Testing in KuCoin sandbox or on past price data
+- Support for back testing, forward testing, and live trading
 - Automatic parameter tuning
 - Discord integration for starting, stopping, and monitoring algorithms
 - Database of trades, variable and parameter changes, and prices
@@ -59,7 +59,7 @@ new     # Create a new trading algorithm
 show    # Show existing trading algorithms and information
 run     # Run specified trading algorithms
 sim     # Test specified trading algorithms in a simulated environment
-test    # Test specified trading algorithms on KuCoin sandbox
+test    # Test specified trading algorithms on live data
 server  # Start NodeTrader in server mode
 ```
 
