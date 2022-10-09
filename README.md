@@ -64,16 +64,19 @@ Ensure reliability and security by isolating an algorithm inside of a container.
 Start a NodeTrader-Framework process in the background, and send commands to it. Makes starting and stopping algorithms easier.
 
 ## Commands
-NodeTrader can be started with the following commands a possible first argument. Note: With the exception of `help`, these commands are tentative and have not been written yet.
-
+The following commands can be used to manage algorithms. As design continues these will be updated with syntax and specifics.
 ```
-help    # Show help or get info on a specific command.
-new     # Create a new trading algorithm
-show    # Show existing trading algorithms and information
-run     # Run specified trading algorithms
-sim     # Test specified trading algorithms in a simulated environment
-test    # Test specified trading algorithms on live data
-server  # Start NodeTrader in server mode
+help      # Show help or get info on a specific command
+new       # Create a new trading algorithm
+delete    # Delete a trading algorithm and its associated data
+list      # Show existing trading algorithms and information
+detail    # Show details about an algorithm and its testing and trading results
+stats     # Show statistics and collected data for an algorithm
+run       # Run trading algorithms on live markets
+backtest  # Test algorithms on historical data
+livetest  # Test algorithms on live data
+server    # Start NodeTrader in server mode
+cli       # Start NodeTrader in CLI mode
 ```
 
 ## Contributing
