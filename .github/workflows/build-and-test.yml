@@ -35,9 +35,6 @@ jobs:
     - name: Install Packages
       run: npm i
       
-    - name: Build From TypeScript
-      run: npm run build
-      
     - name: Run Tests
       run: npm test -- --coverage
       
