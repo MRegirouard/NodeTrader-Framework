@@ -8,7 +8,8 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "target": "es2017",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "preserveConstEnums": true
   },
   "include": ["./src/**/*", "./pairs/**/*"],
 }
