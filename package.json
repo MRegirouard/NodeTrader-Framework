@@ -7,7 +7,8 @@
     "test": "jest ./test --config jest.config.ts",
     "build": "tsc",
     "live-build": "tsc --watch",
-    "start": "node built/src/index.js"
+    "start": "node built/src/index.js",
+    "docs": "typedoc --out docs src/*.ts"
   },
   "repository": {
     "type": "git",
