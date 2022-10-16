@@ -56,23 +56,28 @@ const capsFormat = winston.format((info : winston.LogEntry) =>
 	return info
 })()
 
-// Create the logger
-const log : winston.Logger = winston.createLogger(
+// Return a function to create the logger
+function createLogger() : winston.Logger
 {
-	exitOnError: false,
-	level: 'silly',
-	transports: [
-		new DailyRotateFile(
-		{
-			filename: 'logs/%DATE%.log',
-			format: winston.format.combine(capsFormat, customFormat),
-		}),
-		new winston.transports.Console(
-		{
-			format: winston.format.combine(capsFormat, winston.format.colorize(), customFormat),
-			level: 'warn',
-		})
-	]
-})
+	return winston.createLogger({
+		exitOnError: false,
+		level: 'silly',
+		transports: [
+			new DailyRotateFile(
+			{
+				filename: 'logs/%DATE%.log',
+				format: winston.format.combine(capsFormat, customFormat),
+			}),
+			new winston.transports.Console(
+			{
+				format: winston.format.combine(capsFormat, winston.format.colorize(), customFormat),
+				level: 'warn',
+			})
+		]
+	})
+}
 
+const log : winston.Logger = createLogger()
+
+export { createLogger }
 export default log
