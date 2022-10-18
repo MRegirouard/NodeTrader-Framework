@@ -35,35 +35,8 @@ jobs:
     - name: Install Packages
       run: npm i
 
-    - name: Make Coverage Directory for Generated JSON
-      run: mkdir coverage-to-merge
-
-    - name: Run Log Tests
-      run: npx jest --config jest.config.ts test/customLog.test.ts --coverage
-
-    - name: Move customLog Coverage to Folder
-      run: mv coverage/coverage-final.json coverage-to-merge/customLog.json
-
-    - name: Remove Coverage Folder
-      run: rm -rf coverage
-      
-    - name: Run Other Tests
-      run: npx jest --config jest.config.ts --testPathIgnorePatterns=customLog.test.ts --coverage
-
-    - name: Move Other Coverage to Folder
-      run: mv coverage/coverage-final.json coverage-to-merge/other.json
-
-    - name: Remove Coverage Folder
-      run: rm -rf coverage
-
-    - name: Merge Coverage Reports
-      run: npx nyc merge coverage-to-merge/ merged-coverage/merged-coverage.json
-
-    - name: Generate Full Coverage Report
-      run: npx nyc report -t merged-coverage/ --report-dir coverage --reporter=lcov --reporter=text --reporter=cobertura
-
-    - name: Clean Up Utility Folders
-      run: rm -rf coverage-to-merge merged-coverage
+    - name: Run Tests and Generate Coverage
+      run: npm run cov
       
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v3
