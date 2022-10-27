@@ -6,17 +6,15 @@
   "scripts": {
     "test-main": "jest test/ --config jest.config.ts --testPathIgnorePatterns=customLog.test.ts",
     "cov-main": "mkdir -p coverage/to-merge && npm run test-main -- --coverage --coverageDirectory=coverage/main/ && cp coverage/main/coverage-final.json coverage/to-merge/main.json",
-
     "test-log": "jest test/customLog.test.ts --config jest.config.ts",
     "cov-log": "mkdir -p coverage/to-merge && npm run test-log -- --coverage --coverageDirectory=coverage/log/ && cp coverage/log/coverage-final.json coverage/to-merge/log.json",
-
     "merge-cov": "npx nyc merge coverage/to-merge coverage/output.json && npx nyc report -t coverage/ --report-dir coverage/ --reporter=lcov --reporter=text --reporter=cobertura",
     "test": "npm run test-main && npm run test-log",
     "cov": "npm run cov-main && npm run cov-log && npm run merge-cov",
-
     "build": "tsc",
     "live-build": "tsc --watch",
-    "start": "node built/src/index.js"
+    "start": "node built/src/index.js",
+    "docs": "typedoc --out docs src/*.ts"
   },
   "repository": {
     "type": "git",
@@ -59,6 +57,7 @@
     "nyc": "^15.1.0",
     "ts-jest": "^28.0.7",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.23.16",
     "typescript": "^4.5.5"
   }
 }

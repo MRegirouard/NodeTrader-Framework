@@ -108,3 +108,6 @@ logs/
 
 # Typescript build output folder
 built/
+
+# TypeDoc generated documentation folder
+docs/
