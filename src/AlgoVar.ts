@@ -23,7 +23,7 @@ class VarChangedEvent<T>
 	 * @param newValue The new value of the AlgoVar. Defaults to algoVar.value.
 	 * @param date The date the change occurred on. Defaults to new Date().
 	 */
-	constructor(algoVar: AlgoVar<T>, oldValue: T, newValue: T = null, date: Date = null)
+	constructor(algoVar: AlgoVar<T>, oldValue: T, newValue: T | null = null, date: Date | null = null)
 	{
 		this.algoVar = algoVar
 		this.oldValue = oldValue
@@ -53,7 +53,7 @@ class AlgoVar<T> extends EventEmitter
 	{
 		super()
 		this.name = name
-		this.value = value
+		this._value = value
 	}
 
 	/**
