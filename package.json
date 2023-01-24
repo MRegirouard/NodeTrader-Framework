@@ -7,7 +7,9 @@
     "test": "jest ./test --config jest.config.ts",
     "build": "tsc",
     "live-build": "tsc --watch",
-    "start": "node built/src/index.js"
+    "start": "node built/src/index.js",
+    "lint": "eslint src/*",
+    "lint-tests": "eslint test/*"
   },
   "repository": {
     "type": "git",
