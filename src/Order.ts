@@ -2,9 +2,9 @@
  * Represents the type of an order.
  */
 enum OrderType
-{
+	{
 	BUY, // Represents an order where the "base" currency is exchanged for the "trade" currency.
-	SELL // Represents an order where the "trade" currency is exchanged for the "base" currency.
+	SELL, // Represents an order where the "trade" currency is exchanged for the "base" currency.
 }
 
 /**
@@ -21,12 +21,12 @@ class Order
 	 * @param type The type of order to make, "buy" for buying the "trade" currency,
 	 * and "sell" for buying the "base" currency.
 	 */
-	constructor(amount: number, type: OrderType)
+	public constructor(amount: number, type: OrderType)
 	{
 		this.amount = Math.abs(amount)
-		
+
 		if (amount < 0)
-			this.type = type == OrderType.BUY ? OrderType.SELL : OrderType.BUY
+			this.type = type === OrderType.BUY ? OrderType.SELL : OrderType.BUY
 		else
 			this.type = type
 	}
@@ -38,12 +38,11 @@ class Order
 	 * @param order2 The second order to combine.
 	 * @returns A new order, representing the net sum of the two orders.
 	 */
-	static combine(order1: Order, order2: Order) : Order
+	public static combine(order1: Order, order2: Order): Order
 	{
 		if (order1.type === order2.type)
 			return new Order(order1.amount + order2.amount, order1.type)
-		else
-			return new Order(order1.amount - order2.amount, order1.type)
+		return new Order(order1.amount - order2.amount, order1.type)
 	}
 }
 

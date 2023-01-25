@@ -1,14 +1,10 @@
-import AlgoVar from "./AlgoVar"
+import AlgoVar from './AlgoVar'
 
 /**
  * A tunable parameter for a trading algorithm. Must be a number.
  */
 class AlgoParam extends AlgoVar<number>
 {
-	min: number // The minimum value of the parameter
-	max: number // The maximum value of the parameter
-	step: number // The step size of the parameter
-
 	/**
 	 * Creates a new AlgoParam.
 	 * @param name The name of the parameter.
@@ -17,12 +13,9 @@ class AlgoParam extends AlgoVar<number>
 	 * @param max The maximum value of the parameter.
 	 * @param step The step size of the parameter, for use when tuning.
 	 */
-	constructor(name : string, value : number, min : number, max : number, step : number)
+	public constructor(name: string, value: number, public min: number, public max: number, public step: number)
 	{
 		super(name, value)
-		this.min = min
-		this.max = max
-		this.step = step
 
 		if (this.max < this.min)
 			throw new Error(`Max value (${this.max}) must be greater than or equal to min value (${this.min})`)
@@ -32,7 +25,7 @@ class AlgoParam extends AlgoVar<number>
 	 * Gets the value of this parameter.
 	 * @returns The value of this parameter.
 	 */
-	get value() : number
+	public get value(): number
 	{
 		return super.value
 	}
@@ -42,7 +35,7 @@ class AlgoParam extends AlgoVar<number>
 	 * then clamps it to the min/max range.
 	 * @param value The new value of the parameter.
 	 */
-	set value(value : number)
+	public set value(value: number)
 	{
 		super.value = value
 		this.clamp()
@@ -54,7 +47,7 @@ class AlgoParam extends AlgoVar<number>
 	 * internally, and returns it.
 	 * @returns The new value.
 	 */
-	inc() : number
+	public inc(): number
 	{
 		super.value += this.step
 		return this.clamp()
@@ -66,7 +59,7 @@ class AlgoParam extends AlgoVar<number>
 	 * internally, and returns it.
 	 * @returns The new value.
 	 */
-	dec() : number
+	public dec(): number
 	{
 		super.value -= this.step
 		return this.clamp()
@@ -77,7 +70,7 @@ class AlgoParam extends AlgoVar<number>
 	 * Updates the value internally, and returns it.
 	 * @returns The new value.
 	 */
-	clamp() : number
+	public clamp(): number
 	{
 		if (super.value > this.max)
 			super.value = this.max

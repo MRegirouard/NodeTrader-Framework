@@ -1,14 +1,14 @@
 /**
- * A custom logger for this project 
+ * A custom logger for this project
  */
 
- import winston from 'winston'
- import DailyRotateFile from 'winston-daily-rotate-file' 
+import winston from 'winston'
+import DailyRotateFile from 'winston-daily-rotate-file'
 
 // Create a custom log format that prints the timestamp, level, and message in a formated way
-const customFormat = winston.format.printf((info : winston.LogEntry) =>
+const customFormat = winston.format.printf((info: winston.LogEntry) =>
 {
-	var spaceVal = 7
+	let spaceVal = 7
 
 	if (info.level.length > 7)
 		spaceVal = 17
@@ -16,63 +16,66 @@ const customFormat = winston.format.printf((info : winston.LogEntry) =>
 	info.level = info.level.padStart(info.level.length + Math.floor((spaceVal - info.level.length) / 2), ' ')
 	info.level = info.level.padEnd(spaceVal, ' ')
 	const date = new Date()
-	info.timestamp = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-	info.timestamp = info.timestamp.slice(0, -3) + '.' + date.getMilliseconds().toString().padStart(3, '0') + info.timestamp.slice(-3)
+	let timestamp: string = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+	timestamp = `${timestamp.slice(0, -3)}.${date.getMilliseconds().toString().padStart(3, '0')}` +
+		`${timestamp.slice(-3)}`
 
-	var log = `[ ${info.timestamp} ] [ ${info.level} ]`
+	let logMsg = `[ ${timestamp} ] [ ${info.level} ]`
 
-	if (info.path)
+	if (info.path != null)
 	{
-		const filename = info.path.split('/').pop()
-		log += ` [ ${filename} ]`
+		const filename: string = info.path.split('/').pop()
+		logMsg += ` [ ${filename} ]`
 	}
 
-	if (info.tradingName) // Logs from trading algorithms should display the trading name
+	// Logs from trading algorithms should display the trading name
+	if (info.tradingName != null && typeof info.tradingName == 'string')
 	{
-		info.tradingName = info.tradingName.padStart(info.tradingName.length + Math.floor((10 - info.tradingName.length) / 2), ' ')
-		info.tradingName = info.tradingName.padEnd(10, ' ')
+		let tradingName: string = info.tradingName
+		tradingName = info.tradingName.padStart(info.tradingName.length +
+			Math.floor((10 - info.tradingName.length) / 2), ' ').padEnd(10, ' ')
 
 		if (spaceVal === 17) // If we need to add color codes
 		{
-			if (info.isUser) // Yellow for user messages
-				info.tradingName = '\u001b[33m' + info.tradingName
+			if (info.isUser == null) // Yellow for user messages
+				info.tradingName = `\u001b[34m${tradingName}`
 			else // Blue for system messages
-				info.tradingName = '\u001b[34m' + info.tradingName
+				info.tradingName = `\u001b[33m${tradingName}`
 
 			info.tradingName += '\x1B[39m' // Reset color
 		}
 
-		log += ` [ ${info.tradingName} ]`
+		logMsg += ` [ ${tradingName} ]`
 	}
 
-	log += ` ${info.message}`
-	return log
+	logMsg += ` ${info.message}`
+	return logMsg
 })
 
 // A custom log format to capitalize the log level
-const capsFormat = winston.format((info : winston.LogEntry) =>
+const capsFormat = winston.format((info: winston.LogEntry) =>
 {
 	info.level = info.level.toUpperCase()
 	return info
 })()
 
 // Create the logger
-const log : winston.Logger = winston.createLogger(
-{
-	exitOnError: false,
-	level: 'silly',
-	transports: [
-		new DailyRotateFile(
-		{
-			filename: 'logs/%DATE%.log',
-			format: winston.format.combine(capsFormat, customFormat),
-		}),
-		new winston.transports.Console(
-		{
-			format: winston.format.combine(capsFormat, winston.format.colorize(), customFormat),
-			level: 'warn',
-		})
-	]
-})
+const log: winston.Logger = winston.createLogger(
+	{
+		exitOnError: false,
+		level: 'silly',
+		transports: [
+			new DailyRotateFile(
+				{
+					filename: 'logs/%DATE%.log',
+					format: winston.format.combine(capsFormat, customFormat),
+				}),
+			new winston.transports.Console(
+				{
+					format: winston.format.combine(capsFormat, winston.format.colorize(), customFormat),
+					level: 'warn',
+				}),
+		],
+	})
 
 export default log
