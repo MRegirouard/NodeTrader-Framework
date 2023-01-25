@@ -1,0 +1,15 @@
+{
+	"compilerOptions":
+	{
+	  "outDir": "./built",
+	  "allowJs": true,
+	  "moduleResolution": "node",
+	  "module": "commonjs",
+	  "noImplicitAny": true,
+	  "noImplicitReturns": true,
+	  "target": "es2017",
+	  "esModuleInterop": true,
+	  "strict": true
+	},
+	"include": ["./test/**/*"]
+}
