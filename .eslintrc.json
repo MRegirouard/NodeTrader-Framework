@@ -5,19 +5,22 @@
 	},
 	"plugins":
 	[
-		"@typescript-eslint"
+		"@typescript-eslint",
+		"jest"
 	],
 	"extends":
 	[
 		"eslint:recommended",
 		"plugin:@typescript-eslint/recommended",
-		"plugin:@typescript-eslint/strict"
+		"plugin:@typescript-eslint/strict",
+		"plugin:jest/recommended"
 	],
 	"env":
 	{
 		"browser": false,
 		"node": true,
-		"es6": true
+		"es6": true,
+		"jest/globals": true
 	},
 	"rules":
 	{
