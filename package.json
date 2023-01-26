@@ -14,6 +14,8 @@
     "build": "tsc",
     "live-build": "tsc --watch",
     "start": "node built/src/index.js",
+    "lint": "eslint src/*",
+    "lint-tests": "eslint test/*",
     "docs": "typedoc --out docs src/*.ts"
   },
   "repository": {
@@ -50,7 +52,12 @@
     "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
+    "@types/argparse": "^2.0.10",
     "@types/jest": "^28.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-jest": "^27.2.1",
     "jest": "^28.1.3",
     "jest-mock-process": "^2.0.0",
     "memfs": "^3.4.7",

@@ -1,4 +1,4 @@
-import moment from "moment"
+import moment from 'moment'
 
 /**
  * Represents a pair price candle for a certain interval
@@ -14,7 +14,7 @@ class Candle
 	 * @param close The closing price of the candle
 	 * @param volume The volume traded during the candle
 	 */
-	constructor(public readonly date: moment.Moment, public readonly open: number,
+	public constructor(public readonly date: moment.Moment, public readonly open: number,
 		public readonly high: number, public readonly low: number,
 		public readonly close: number, public readonly volume: number)
 	{}
@@ -25,7 +25,7 @@ class Candle
 	 * [date (in milliseconds), open, high, low, close, volume]
 	 * @returns The new Candle
 	 */
-	public static fromArr(arr: [number, number, number, number, number, number]) : Candle
+	public static fromArr(arr: [number, number, number, number, number, number]): Candle
 	{
 		return new Candle(moment(arr[0]), arr[1], arr[2], arr[3], arr[4], arr[5])
 	}

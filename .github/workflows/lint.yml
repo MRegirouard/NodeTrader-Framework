@@ -1,0 +1,26 @@
+name: Node.js ESLint
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint Project
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Project
+      uses: actions/checkout@v3
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+
+    - name: Install Packages
+      run: npm i
+
+    - name: Run ESLint
+      run: npm run lint
+
+    - name: Run ESLint for Tests
+      run: npm run lint-tests

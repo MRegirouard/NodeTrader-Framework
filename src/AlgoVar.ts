@@ -1,4 +1,4 @@
-import { EventEmitter } from "events"
+import { EventEmitter } from 'events'
 
 /**
  * Stores data reguarding an AlgoVar change, storing the AlgoVar,
@@ -6,13 +6,6 @@ import { EventEmitter } from "events"
  */
 class VarChangedEvent<T>
 {
-	public readonly algoVar: AlgoVar<T> // The AlgoVar that changed
-	public readonly newValue: T // The new value of the AlgoVar. Stored so that
-								// this event can be used after multiple changes
-								// to the AlgoVar and still represents the change.
-	public readonly oldValue: T // The value prior to the change
-	public readonly date: Date // The date the change occurred on
-
 	/**
 	 * Creates a new VarChangedEvent, storing the AlgoVar, the old value,
 	 * (optionally) the new value, and (optionally) the date the change
@@ -23,13 +16,9 @@ class VarChangedEvent<T>
 	 * @param newValue The new value of the AlgoVar. Defaults to algoVar.value.
 	 * @param date The date the change occurred on. Defaults to new Date().
 	 */
-	constructor(algoVar: AlgoVar<T>, oldValue: T, newValue: T = null, date: Date = null)
-	{
-		this.algoVar = algoVar
-		this.oldValue = oldValue
-		this.newValue = newValue || algoVar.value
-		this.date = date || new Date()
-	}
+	public constructor(public readonly algoVar: AlgoVar<T>, public readonly oldValue: T,
+		public readonly newValue: T = algoVar.value, public readonly date: Date = new Date())
+	{}
 }
 
 /**
@@ -41,26 +30,24 @@ class VarChangedEvent<T>
  */
 class AlgoVar<T> extends EventEmitter
 {
-	public readonly name : string // The name of the variable
-	private _value : T // The current value of the variable
+	private _value: T // The current value of the variable
 
 	/**
 	 * Create a new AlgoVar, with the given name and initial value.
 	 * @param name The name of the variable.
 	 * @param value The initial value of the variable.
 	 */
-	constructor(name : string, value : T)
+	public constructor(public readonly name: string, value: T)
 	{
 		super()
-		this.name = name
-		this.value = value
+		this._value = value
 	}
 
 	/**
 	 * Get the current value of the variable.
 	 * @returns The current value of the variable.
 	 */
-	get value() : T
+	public get value(): T
 	{
 		return this._value
 	}
@@ -71,7 +58,7 @@ class AlgoVar<T> extends EventEmitter
 	 * regardless of whether the value actually changed.
 	 * @param value The new value of the variable.
 	 */
-	set value(value : T)
+	public set value(value: T)
 	{
 		const changeEvent = new VarChangedEvent(this, this.value, value)
 		this._value = value
