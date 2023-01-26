@@ -9,7 +9,8 @@
     "noImplicitReturns": true,
     "target": "es2017",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "preserveConstEnums": true
   },
   "include": ["./src/**/*", "./pairs/**/*"],
 }

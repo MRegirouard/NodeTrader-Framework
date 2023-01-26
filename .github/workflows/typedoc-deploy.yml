@@ -1,0 +1,29 @@
+name: Generate docs using TypeDoc and deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "stable" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Generate Documentation
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Project
+      uses: actions/checkout@v3
+      
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      
+    - name: Install Packages
+      run: npm i
+      
+    - name: Generate Documentation
+      run: npm run docs
+
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: docs
+        branch: gh-pages
