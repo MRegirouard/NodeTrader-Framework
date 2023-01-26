@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loop-func */
 import { vol } from 'memfs'
 import { mockProcessStdout } from 'jest-mock-process'
 
@@ -9,9 +10,8 @@ jest.mock('fs/promises')
 process.chdir('/')
 
 // These imports must come after setting the working directory to /
-import { Logger } from 'winston'
-import { createLogger } from '../src/customLog'
-import log from '../src/customLog'
+import type { Logger } from 'winston'
+import log, { createLogger } from '../src/customLog'
 
 const logFileTimeout = 100 // Timeout to wait for the log file to be written to
 jest.setTimeout(logFileTimeout + 50) // Add a little extra time to the test timeout
@@ -25,7 +25,7 @@ beforeEach(() =>
 	process.chdir('/')
 	vol.reset()
 	tmpLogger = createLogger()
-	
+
 	// Make every transport log at every level
 	for (const transport of tmpLogger.transports)
 		transport.level = Object.keys(tmpLogger.levels)[Object.keys(tmpLogger.levels).length - 1]
@@ -46,61 +46,73 @@ afterEach(() =>
  * @param stdoutMessages The messages that should be in the stdout mock
  * @param callback The callback to run after testing is complete
  */
-function checkLogOuts(fileMessages: string[], stdoutMessages: string[], callback?: jest.DoneCallback)
+function checkLogOuts(fileMessages: string[], stdoutMessages: string[]): Promise<void>
 {
-	const logDate = new Date()
-
-	// Check console messages
-	if (stdoutMessages.length > 0)
-		expect(mockConsole).toHaveBeenCalled()
-		
-	for (const message of stdoutMessages)
+	const promise = new Promise<void>((resolve) =>
 	{
-		expect(mockConsole).toHaveBeenCalledWith(expect.stringContaining(message))
-	}
+		const logDate = new Date()
 
-	vol.readdir('logs/', (err, files) =>
-	{
-		expect(err).toBeNull()
-		expect(files).toBeDefined()
-		expect(files?.length).toBe(1)
+		// Check console messages
+		if (stdoutMessages.length > 0)
+			expect(mockConsole).toHaveBeenCalled()
 
-		// File name checking
-		const filename = (files as string[])[0]
-		const nameSections = filename.split('.')
-		expect(nameSections.length).toBe(2)
-		expect(nameSections[1]).toBe('log')
+		for (const message of stdoutMessages)
 
-		// File name date format checking
-		const firstNameSections = nameSections[0].split('-')
-		expect(firstNameSections.length).toBe(3)
-		expect(firstNameSections[0]).toBe(logDate.getFullYear().toString())
-		expect(firstNameSections[1]).toBe((logDate.getMonth() + 1).toString().padStart(2, '0'))
-		expect(firstNameSections[2]).toBe(logDate.getDate().toString().padStart(2, '0'))
+			expect(mockConsole).toHaveBeenCalledWith(expect.stringContaining(message))
 
-		vol.readFile('logs/' + (files as string[])[0], (err, data) =>
+
+		vol.readdir('logs/', (dirErr, files) =>
 		{
-			expect(err).toBeNull()
-			expect(data).toBeDefined()
-			
-			// Check file messages
-			for (const message of fileMessages)
-				expect(data?.toString()).toContain(message)
-			
-			if (callback)
-				callback()
+			expect(dirErr).toBeNull()
+			expect(files).toBeDefined()
+			expect(files?.length).toBe(1)
+
+			// File name checking
+			const filename = (files as string[])[0]
+			const nameSections = filename.split('.')
+			expect(nameSections.length).toBe(2)
+			expect(nameSections[1]).toBe('log')
+
+			// File name date format checking
+			const firstNameSections = nameSections[0].split('-')
+			expect(firstNameSections.length).toBe(3)
+			expect(firstNameSections[0]).toBe(logDate.getFullYear().toString())
+			expect(firstNameSections[1]).toBe((logDate.getMonth() + 1).toString().padStart(2, '0'))
+			expect(firstNameSections[2]).toBe(logDate.getDate().toString().padStart(2, '0'))
+
+			vol.readFile(`logs/${(files as string[])[0]}`, (fileErr, data) =>
+			{
+				expect(fileErr).toBeNull()
+				expect(data).toBeDefined()
+
+				// Check file messages
+				for (const message of fileMessages)
+					expect(data?.toString()).toContain(message)
+
+				resolve()
+			})
 		})
 	})
+
+	const timeout = new Promise<void>((reject) =>
+	{
+		setTimeout(reject, logFileTimeout)
+	})
+
+	return Promise.race([ promise, timeout ])
 }
 
 // Due to the way filesystem mocking works, the default logger will only work once
 describe('default logger', () =>
 {
-	test('should log to the correct file', (done) =>
+	test('should log to the correct file', () =>
 	{
-		expect(log).toBeTruthy()
-		log.verbose('test message')
-		setTimeout(() => checkLogOuts(['test message', 'VERBOSE'], [], done), logFileTimeout)
+		return new Promise((resolve) =>
+		{
+			expect(log).toBeTruthy()
+			log.verbose('test message')
+			checkLogOuts([ 'test message', 'VERBOSE' ], []).then(resolve)
+		})
 	})
 })
 
@@ -109,49 +121,54 @@ describe('log level functions', () =>
 {
 	for (const level in log.levels)
 	{
-		test(`should create a ${level} message in the correct file`, (done) =>
+		test(`should create a ${level} message in the correct file`, async() =>
 		{
 			tmpLogger.log(level, 'test message')
 
-			const expectFile = [level.toUpperCase(), 'test message']
-			const expectStdout = [level.toUpperCase(), 'test message']
+			const expectFile = [ level.toUpperCase(), 'test message' ]
+			const expectStdout = [ level.toUpperCase(), 'test message' ]
 
-			setTimeout(() => checkLogOuts(expectFile, expectStdout, done), logFileTimeout)
+			await expect(checkLogOuts(expectFile, expectStdout)).resolves.toBeUndefined()
 		})
 
-		test(`should create a ${level} message with the correct path in the correct file`, (done) =>
+		test(`should create a ${level} message with the correct path in the correct file`, async() =>
 		{
 			tmpLogger = tmpLogger.child({ path: module.filename })
 			tmpLogger.log(level, 'test message')
 
-			const fileName = module.filename.split('/').pop() as string
-			const expectFile = [level.toUpperCase(), 'test message', fileName]
-			const expectStdout = [level.toUpperCase(), 'test message', fileName]
+			const fileName = module.filename.split('/').pop()
+			expect(fileName).toBeDefined()
+			expect(fileName).not.toBeNull()
+			expect(fileName?.split('/').length).toBeGreaterThanOrEqual(1)
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const expectFile = [ level.toUpperCase(), 'test message', fileName! ]
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const expectStdout = [ level.toUpperCase(), 'test message', fileName! ]
 
-			setTimeout(() => checkLogOuts(expectFile, expectStdout, done), logFileTimeout)
+			await expect(checkLogOuts(expectFile, expectStdout)).resolves.toBeUndefined()
 		})
 
-		test(`should create a ${level} message with the correct tradingName in the correct file`, (done) =>
+		test(`should create a ${level} message with the correct tradingName in the correct file`, async() =>
 		{
 			tmpLogger = tmpLogger.child({ tradingName: 'TestTrade' })
 			tmpLogger.log(level, 'test message')
 
-			const expectFile = [level.toUpperCase(), 'test message', 'TestTrade']
-			const expectStdout = [level.toUpperCase(), 'test message', '\u001b[34mTestTrade']
+			const expectFile = [ level.toUpperCase(), 'test message', 'TestTrade' ]
+			const expectStdout = [ level.toUpperCase(), 'test message', '\u001b[34mTestTrade' ]
 
-			setTimeout(() => checkLogOuts(expectFile, expectStdout, done), logFileTimeout)
+			await expect(checkLogOuts(expectFile, expectStdout)).resolves.toBeUndefined()
 		})
 
 		test(`should create a ${level} message with the correct tradingName in the correct file` +
-			` with the yellow color for user log messages`, (done) =>
+			' with the yellow color for user log messages', async() =>
 		{
 			tmpLogger = tmpLogger.child({ tradingName: 'TestTrade', isUser: true })
 			tmpLogger.log(level, 'test message')
 
-			const expectFile = [level.toUpperCase(), 'test message', 'TestTrade']
-			const expectStdout = [level.toUpperCase(), 'test message', '\u001b[33mTestTrade']
+			const expectFile = [ level.toUpperCase(), 'test message', 'TestTrade' ]
+			const expectStdout = [ level.toUpperCase(), 'test message', '\u001b[33mTestTrade' ]
 
-			setTimeout(() => checkLogOuts(expectFile, expectStdout, done), logFileTimeout)
+			await expect(checkLogOuts(expectFile, expectStdout)).resolves.toBeUndefined()
 		})
 	}
 })
