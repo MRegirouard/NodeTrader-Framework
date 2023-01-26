@@ -38,11 +38,11 @@ const customFormat = winston.format.printf((info: winston.LogEntry) =>
 		if (spaceVal === 17) // If we need to add color codes
 		{
 			if (info.isUser == null) // Yellow for user messages
-				info.tradingName = `\u001b[34m${tradingName}`
+				tradingName = `\u001b[34m${tradingName}`
 			else // Blue for system messages
-				info.tradingName = `\u001b[33m${tradingName}`
+				tradingName = `\u001b[33m${tradingName}`
 
-			info.tradingName += '\x1B[39m' // Reset color
+			tradingName += '\x1B[39m' // Reset color
 		}
 
 		logMsg += ` [ ${tradingName} ]`
