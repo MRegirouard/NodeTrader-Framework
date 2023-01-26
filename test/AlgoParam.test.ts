@@ -1,7 +1,6 @@
 import AlgoParam from '../src/AlgoParam'
 import { AlgoVar, type VarChangedEvent } from '../src/AlgoVar'
 import { EventEmitter } from 'events'
-import { describe, expect, beforeEach, test, jest } from '@jest/globals'
 
 let algoParam: AlgoParam
 
@@ -14,7 +13,6 @@ describe('AlgoParam', () =>
 {
 	test('Should create a new AlgoParam', () =>
 	{
-		expect(algoParam)
 		expect(algoParam).toBeInstanceOf(AlgoVar)
 		expect(algoParam).toBeInstanceOf(EventEmitter)
 		expect(algoParam.name).toBe('myParam')
@@ -27,7 +25,7 @@ describe('AlgoParam', () =>
 	test('should throw an error if the max value is below the min value', () =>
 	{
 		expect(() => new AlgoParam('myParam', 50, 100, 0, 10))
-			.toThrowError('Max value (0) must be greater than or equal to min value (100)')
+			.toThrow('Max value (0) must be greater than or equal to min value (100)')
 	})
 })
 
@@ -56,7 +54,6 @@ describe('AlgoParam.value', () =>
 	{
 		const callback = jest.fn((event: VarChangedEvent<number>) =>
 		{
-			expect(event)
 			expect(event.algoVar).toBe(algoParam)
 			expect(event.oldValue).toBe(50)
 			expect(event.newValue).toBe(60)
