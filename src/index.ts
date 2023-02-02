@@ -20,7 +20,12 @@ const commands: commandObject[] = []
 log.debug(`List of ${commands.length} commands created.`)
 
 const parser = new ArgumentParser({ description: 'A Node.js cryptocurrency trading bot framework.' })
-parser.add_argument('-l', '--logging', { choices: JSON.stringify(log.levels), default: 'warn',
+
+const levelStrs = []
+for (const key of Object.keys(log.levels))
+	levelStrs.push(key)
+
+parser.add_argument('-l', '--logging', { choices: levelStrs, default: 'warn',
 	help: 'Set the console logging level. Defaults to warn.' })
 
 const subParsers = parser.add_subparsers({ dest: 'command', help: 'Command to execute.' })
