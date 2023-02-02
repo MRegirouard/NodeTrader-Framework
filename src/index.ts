@@ -21,7 +21,7 @@ log.debug(`List of ${commands.length} commands created.`)
 
 const parser = new ArgumentParser({ description: 'A Node.js cryptocurrency trading bot framework.' })
 
-let levelStrs = []
+const levelStrs = []
 for (const key of Object.keys(log.levels))
 	levelStrs.push(key)
 
