@@ -14,8 +14,17 @@ class Candleset
 	 * @param candles The candles to put in this Candleset
 	 */
 	public constructor(public readonly interval: CandleInterval, public readonly pair: TradingPair,
-		public readonly candles: Candle[] = [])
+		private readonly _candles: Candle[] = [])
 	{}
+
+	/**
+	 * Get the candles in this Candleset
+	 * @returns The candles in this Candleset
+	 */
+	public get candles(): readonly Candle[]
+	{
+		return this._candles
+	}
 
 	/**
 	 * Get the name of this candle set
@@ -31,7 +40,7 @@ class Candleset
 	 */
 	public addCandle(candle: Candle): void
 	{
-		this.candles.push(candle)
+		this._candles.push(candle)
 	}
 }
 
