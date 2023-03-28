@@ -1,4 +1,4 @@
-import log from './customLog'
+import log, { rawLog } from './customLog'
 
 log.info('')
 log.info('Starting NodeTrader Framework')
@@ -69,7 +69,7 @@ switch (args.command)
 			if (command)
 			{
 				log.debug(`Command ${command.name} found, printing help...`)
-				console.log(command.subparser.format_help())
+				rawLog.info(command.subparser.format_help())
 				log.silly(`Help printed for command ${command.name}, exiting with code 0.`, () => process.exit(0))
 			}
 			else
