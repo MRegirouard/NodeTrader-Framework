@@ -18,29 +18,7 @@ import log, { createLogger } from '../src/customLog'
 const logFileTimeout = 100 // Timeout to wait for the log file to be written to
 jest.setTimeout(logFileTimeout + 50) // Add a little extra time to the test timeout
 
-let tmpLogger: Logger
-let mockConsole: jest.SpyInstance
-
-beforeEach(() =>
-{
-	// Reset before each test
-	process.chdir('/')
-	vol.reset()
-	tmpLogger = createLogger()
-
-	// Make every transport log at every level
-	for (const transport of tmpLogger.transports)
-		transport.level = Object.keys(tmpLogger.levels)[Object.keys(tmpLogger.levels).length - 1]
-
-	// Mock console output
-	mockConsole = mockProcessStdout()
-})
-
-afterEach(() =>
-{
-	// Clear the console mock
-	mockConsole.mockRestore()
-})
+let mockConsole: jest.SpyInstance = mockProcessStdout()
 
 /**
  * Check that the given messages are in the console output. Calls the
@@ -148,6 +126,29 @@ describe('default logger', () =>
 // Test every log level
 describe('log level functions', () =>
 {
+	let tmpLogger: Logger
+
+	beforeEach(() =>
+	{
+		// Reset before each test
+		process.chdir('/')
+		vol.reset()
+		tmpLogger = createLogger()
+
+		// Make every transport log at every level
+		for (const transport of tmpLogger.transports)
+			transport.level = Object.keys(tmpLogger.levels)[Object.keys(tmpLogger.levels).length - 1]
+
+		// Mock console output
+		mockConsole = mockProcessStdout()
+	})
+
+	afterEach(() =>
+	{
+		// Clear the console mock
+		mockConsole.mockRestore()
+	})
+
 	for (const level in log.levels)
 	{
 		test(`should create a ${level} message in the correct file`, () =>
