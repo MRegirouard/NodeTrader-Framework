@@ -43,6 +43,86 @@ afterEach(() =>
 })
 
 /**
+ * Check that the given messages are in the console output. Calls the
+ * "expect" function to fail the test if they are not.
+ * @param messages The strings to check for
+ */
+function checkStdOut(messages: string[]): void
+{
+	if (messages.length > 0)
+		expect(mockConsole).toHaveBeenCalled()
+	else
+		expect(mockConsole).not.toHaveBeenCalled()
+
+	for (const message of messages)
+		expect(mockConsole).toHaveBeenCalledWith(expect.stringContaining(message))
+}
+
+/**
+ * Check that the log output file contains the given messages. Calls the "expect" function to fail the test
+ * if they are not. Either checks for a "raw" log file or a normal log file.
+ * @param isRawLog Whether to check for a raw log file. If false, checks for a normal log file.
+ * @param messages The strings to check for
+ */
+function checkFileOut(isRawLog: boolean, messages: string[]): void
+{
+	const files = vol.readdirSync('logs/') as string[]
+	expect(files.length).toBeGreaterThanOrEqual(1)
+
+	let foundFiles: string[] = []
+
+	if (isRawLog)
+		foundFiles = files.filter((file) => file.endsWith('.raw.log'))
+	else
+		foundFiles = files.filter((file) => file.endsWith('.log') && !file.endsWith('.raw.log'))
+
+	if (messages.length === 0)
+	{
+		expect(foundFiles.length).toBe(0)
+		return
+	}
+	expect(foundFiles.length).toBe(1)
+
+	const data = vol.readFileSync(`logs/${foundFiles[0]}`, 'utf8')
+
+	for (const message of messages)
+		expect(data).toContain(message)
+}
+
+/**
+ * Check that a log file with the correct name exists. Calls the "expect" function to fail the
+ * test if it does not. Checks for a "raw" log file or a normal log file.
+ * @param isRawLog Whether to check for a raw log file. If false, checks for a normal log file.
+ * @param date The date the file should be named after
+ * @param fileCount The number of files that should exist in the logs directory
+ */
+function checkFileName(isRawLog: boolean, date: Date, fileCount: number): void
+{
+	const files = vol.readdirSync('logs/') as string[]
+	expect(files.length).toBe(fileCount)
+	let foundOne = false
+
+	// File name checking
+	for (const filename of files)
+	{
+		if (isRawLog && !filename.endsWith('.raw.log'))
+			continue
+		else if (!isRawLog && !filename.endsWith('.log'))
+			continue
+
+		foundOne = true
+
+		const nameSections = filename.split('.')[0].split('-')
+		expect(nameSections.length).toBe(3)
+		expect(nameSections[0]).toBe(date.getFullYear().toString())
+		expect(nameSections[1]).toBe((date.getMonth() + 1).toString().padStart(2, '0'))
+		expect(nameSections[2]).toBe(date.getDate().toString().padStart(2, '0'))
+	}
+
+	expect(foundOne).toBe(true)
+}
+
+/**
  * Test the logs/ folder and the stdout mock for the given strings. Verifies that the log file has a valid name.
  * @param fileMessages The messages that should be in the log files
  * @param stdoutMessages The messages that should be in the stdout mock
