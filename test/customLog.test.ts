@@ -189,11 +189,20 @@ describe('default logger', () =>
 {
 	test('should log to the correct file', () =>
 	{
-		return new Promise((resolve) =>
+		return new Promise<void>((resolve) =>
 		{
 			expect(log).toBeTruthy()
-			log.verbose('test message')
-			checkLogOuts([ 'test message', 'VERBOSE' ], []).then(resolve)
+			expect(() => log.verbose('test message')).not.toThrow()
+
+			setTimeout(() =>
+			{
+				checkFileName(false, new Date(), 2)
+				checkFileName(true, new Date(), 2)
+				checkFileOut(false, [ 'test message', 'VERBOSE' ])
+				// Don't check for an empty raw file here, as the default raw logger will always create one
+				checkStdOut([ ])
+				resolve()
+			}, logFileTimeout)
 		})
 	})
 })
@@ -203,54 +212,78 @@ describe('log level functions', () =>
 {
 	for (const level in log.levels)
 	{
-		test(`should create a ${level} message in the correct file`, async() =>
+		test(`should create a ${level} message in the correct file`, () =>
 		{
-			tmpLogger.log(level, 'test message')
+			return new Promise<void>((resolve) =>
+			{
+				expect(() => tmpLogger.log(level, 'test message')).not.toThrow()
 
-			const expectFile = [ level.toUpperCase(), 'test message' ]
-			const expectStdout = [ level.toUpperCase(), 'test message' ]
-
-			await expect(checkLogOuts(expectFile, expectStdout)).resolves.toBeUndefined()
+				setTimeout(() =>
+				{
+					checkFileName(false, new Date(), 1)
+					checkFileOut(false, [ level.toUpperCase(), 'test message' ])
+					checkFileOut(true, [ ])
+					checkStdOut([ level.toUpperCase(), 'test message' ])
+					resolve()
+				}, logFileTimeout)
+			})
 		})
 
-		test(`should create a ${level} message with the correct path in the correct file`, async() =>
+		test(`should create a ${level} message with the correct path in the correct file`, () =>
 		{
-			tmpLogger = tmpLogger.child({ path: module.filename })
-			tmpLogger.log(level, 'test message')
+			return new Promise<void>((resolve) =>
+			{
+				tmpLogger = tmpLogger.child({ path: module.filename })
+				expect(() => tmpLogger.log(level, 'test message')).not.toThrow()
 
-			const fileName = module.filename.split('/').pop()
-			expect(fileName).toBeDefined()
-			expect(fileName).not.toBeNull()
-			expect(fileName?.split('/').length).toBeGreaterThanOrEqual(1)
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const expectFile = [ level.toUpperCase(), 'test message', fileName! ]
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const expectStdout = [ level.toUpperCase(), 'test message', fileName! ]
-
-			await expect(checkLogOuts(expectFile, expectStdout)).resolves.toBeUndefined()
+				setTimeout(() =>
+				{
+					checkFileName(false, new Date(), 1)
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					checkFileOut(false, [ level.toUpperCase(), 'test message', module.filename.split('/').pop()! ])
+					checkFileOut(true, [ ])
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					checkStdOut([ level.toUpperCase(), 'test message', module.filename.split('/').pop()! ])
+					resolve()
+				}, logFileTimeout)
+			})
 		})
 
-		test(`should create a ${level} message with the correct tradingName in the correct file`, async() =>
+		test(`should create a ${level} message with the correct tradingName in the correct file`, () =>
 		{
-			tmpLogger = tmpLogger.child({ tradingName: 'TestTrade' })
-			tmpLogger.log(level, 'test message')
+			return new Promise<void>((resolve) =>
+			{
+				tmpLogger = tmpLogger.child({ tradingName: 'TestTrade' })
+				expect(() => tmpLogger.log(level, 'test message')).not.toThrow()
 
-			const expectFile = [ level.toUpperCase(), 'test message', 'TestTrade' ]
-			const expectStdout = [ level.toUpperCase(), 'test message', '\u001b[34mTestTrade' ]
-
-			await expect(checkLogOuts(expectFile, expectStdout)).resolves.toBeUndefined()
+				setTimeout(() =>
+				{
+					checkFileName(false, new Date(), 1)
+					checkFileOut(false, [ level.toUpperCase(), 'test message', 'TestTrade' ])
+					checkFileOut(true, [ ])
+					checkStdOut([ level.toUpperCase(), 'test message', '\u001b[34mTestTrade' ])
+					resolve()
+				}, logFileTimeout)
+			})
 		})
 
 		test(`should create a ${level} message with the correct tradingName in the correct file` +
-			' with the yellow color for user log messages', async() =>
+			' with the yellow color for user log messages', () =>
 		{
-			tmpLogger = tmpLogger.child({ tradingName: 'TestTrade', isUser: true })
-			tmpLogger.log(level, 'test message')
+			return new Promise<void>((resolve) =>
+			{
+				tmpLogger = tmpLogger.child({ tradingName: 'TestTrade', isUser: true })
+				expect(() => tmpLogger.log(level, 'test message')).not.toThrow()
 
-			const expectFile = [ level.toUpperCase(), 'test message', 'TestTrade' ]
-			const expectStdout = [ level.toUpperCase(), 'test message', '\u001b[33mTestTrade' ]
-
-			await expect(checkLogOuts(expectFile, expectStdout)).resolves.toBeUndefined()
+				setTimeout(() =>
+				{
+					checkFileName(false, new Date(), 1)
+					checkFileOut(false, [ level.toUpperCase(), 'test message', 'TestTrade' ])
+					checkFileOut(true, [ ])
+					checkStdOut([ level.toUpperCase(), 'test message', '\u001b[33mTestTrade' ])
+					resolve()
+				}, logFileTimeout)
+			})
 		})
 	}
 })
