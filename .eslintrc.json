@@ -106,7 +106,8 @@
 		"switch-colon-spacing": [ "error", { "after": false, "before": false } ],
 		"template-curly-spacing": "error",
 		"wrap-iife": "error",
-		"yield-star-spacing": [ "error", "after" ]
+		"yield-star-spacing": [ "error", "after" ],
+		"no-console": "error"
 	},
 	"overrides": [
 		{
