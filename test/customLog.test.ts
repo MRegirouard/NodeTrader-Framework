@@ -122,68 +122,6 @@ function checkFileName(isRawLog: boolean, date: Date, fileCount: number): void
 	expect(foundOne).toBe(true)
 }
 
-/**
- * Test the logs/ folder and the stdout mock for the given strings. Verifies that the log file has a valid name.
- * @param fileMessages The messages that should be in the log files
- * @param stdoutMessages The messages that should be in the stdout mock
- * @param callback The callback to run after testing is complete
- */
-function checkLogOuts(fileMessages: string[], stdoutMessages: string[]): Promise<void>
-{
-	const promise = new Promise<void>((resolve) =>
-	{
-		const logDate = new Date()
-
-		// Check console messages
-		if (stdoutMessages.length > 0)
-			expect(mockConsole).toHaveBeenCalled()
-
-		for (const message of stdoutMessages)
-
-			expect(mockConsole).toHaveBeenCalledWith(expect.stringContaining(message))
-
-
-		vol.readdir('logs/', (dirErr, files) =>
-		{
-			expect(dirErr).toBeNull()
-			expect(files).toBeDefined()
-			expect(files?.length).toBe(1)
-
-			// File name checking
-			const filename = (files as string[])[0]
-			const nameSections = filename.split('.')
-			expect(nameSections.length).toBe(2)
-			expect(nameSections[1]).toBe('log')
-
-			// File name date format checking
-			const firstNameSections = nameSections[0].split('-')
-			expect(firstNameSections.length).toBe(3)
-			expect(firstNameSections[0]).toBe(logDate.getFullYear().toString())
-			expect(firstNameSections[1]).toBe((logDate.getMonth() + 1).toString().padStart(2, '0'))
-			expect(firstNameSections[2]).toBe(logDate.getDate().toString().padStart(2, '0'))
-
-			vol.readFile(`logs/${(files as string[])[0]}`, (fileErr, data) =>
-			{
-				expect(fileErr).toBeNull()
-				expect(data).toBeDefined()
-
-				// Check file messages
-				for (const message of fileMessages)
-					expect(data?.toString()).toContain(message)
-
-				resolve()
-			})
-		})
-	})
-
-	const timeout = new Promise<void>((reject) =>
-	{
-		setTimeout(reject, logFileTimeout)
-	})
-
-	return Promise.race([ promise, timeout ])
-}
-
 // Due to the way filesystem mocking works, the default logger will only work once
 describe('default logger', () =>
 {
