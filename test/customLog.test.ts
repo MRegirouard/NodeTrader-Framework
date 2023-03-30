@@ -13,7 +13,7 @@ vol.reset()
 
 // These imports must come after setting the working directory to /
 import type { Logger } from 'winston'
-import log, { createLogger } from '../src/customLog'
+import log, { createLogger, createRawLogger } from '../src/customLog'
 
 const logFileTimeout = 100 // Timeout to wait for the log file to be written to
 jest.setTimeout(logFileTimeout + 50) // Add a little extra time to the test timeout
@@ -220,6 +220,52 @@ describe('log level functions', () =>
 					checkFileOut(false, [ level.toUpperCase(), 'test message', 'TestTrade' ])
 					checkFileOut(true, [ ])
 					checkStdOut([ level.toUpperCase(), 'test message', '\u001b[33mTestTrade' ])
+					resolve()
+				}, logFileTimeout)
+			})
+		})
+	}
+})
+
+describe('raw log level functions', () =>
+{
+	let tmpLogger: Logger
+
+	beforeEach(() =>
+	{
+		// Reset before each test
+		process.chdir('/')
+		vol.reset()
+		tmpLogger = createRawLogger()
+
+		// Make every transport log at every level
+		for (const transport of tmpLogger.transports)
+			transport.level = Object.keys(tmpLogger.levels)[Object.keys(tmpLogger.levels).length - 1]
+
+		// Mock console output
+		mockConsole = mockProcessStdout()
+	})
+
+	afterEach(() =>
+	{
+		// Clear the console mock
+		mockConsole.mockRestore()
+	})
+
+	for (const level in log.levels)
+	{
+		test(`should create a ${level} message in the correct file`, () =>
+		{
+			return new Promise<void>((resolve) =>
+			{
+				expect(() => tmpLogger.log(level, 'test raw message')).not.toThrow()
+
+				setTimeout(() =>
+				{
+					checkFileName(true, new Date(), 1)
+					checkFileOut(true, ['test raw message'])
+					checkFileOut(false, [ ])
+					checkStdOut(['test raw message'])
 					resolve()
 				}, logFileTimeout)
 			})
