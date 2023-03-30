@@ -13,7 +13,7 @@ vol.reset()
 
 // These imports must come after setting the working directory to /
 import type { Logger } from 'winston'
-import log, { createLogger, createRawLogger } from '../src/customLog'
+import log, { createLogger, rawLog, createRawLogger } from '../src/customLog'
 
 const logFileTimeout = 100 // Timeout to wait for the log file to be written to
 jest.setTimeout(logFileTimeout + 50) // Add a little extra time to the test timeout
@@ -117,6 +117,33 @@ describe('default logger', () =>
 				checkFileOut(false, [ 'test message', 'VERBOSE' ])
 				// Don't check for an empty raw file here, as the default raw logger will always create one
 				checkStdOut([ ])
+				resolve()
+			}, logFileTimeout)
+		})
+	})
+})
+
+
+// Important that the mock filesystem is not reset before testing the default raw logger
+// If it does get reset, because the raw logger was created before the mock filesystem was reset,
+// the raw logger will not be able to write to the new mock filesystem (Bad file descriptor)
+describe('default raw logger', () =>
+{
+	test('should log to the correct file', () =>
+	{
+		return new Promise<void>((resolve) =>
+		{
+			expect(rawLog).toBeTruthy()
+			expect(() => rawLog.verbose('test raw message')).not.toThrow()
+
+			setTimeout(() =>
+			{
+				checkFileName(false, new Date(), 2)
+				checkFileName(true, new Date(), 2)
+				// Don't check for an empty file here, as the default logger will always create one
+				checkFileOut(true, ['test raw message'])
+				checkStdOut(['test raw message'])
+
 				resolve()
 			}, logFileTimeout)
 		})
