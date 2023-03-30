@@ -8,6 +8,8 @@ jest.mock('fs/promises')
 
 // Set the current working directory to the root of the filesystem, fixes some "no such file or directory" errors
 process.chdir('/')
+// Reset the filesystem before importing the logger so the default logger is created with the correct working directory
+vol.reset()
 
 // These imports must come after setting the working directory to /
 import type { Logger } from 'winston'
