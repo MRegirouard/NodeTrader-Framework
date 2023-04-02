@@ -107,7 +107,8 @@
 		"template-curly-spacing": "error",
 		"wrap-iife": "error",
 		"yield-star-spacing": [ "error", "after" ],
-		"no-console": "error"
+		"no-console": "error",
+		"jest/no-conditional-expect": "off"
 	},
 	"overrides": [
 		{
