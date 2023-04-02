@@ -47,6 +47,7 @@
     "ccxt": "^3.0.25",
     "discord.js": "^13.13.1",
     "knex": "^2.4.2",
+    "knex-on-duplicate-update": "^2.3.0",
     "moment": "^2.29.4",
     "sqlite3": "^4.2.0",
     "ts-mixer": "^6.0.3",
