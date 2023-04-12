@@ -44,7 +44,7 @@
     "@iofate/kucoin-ws": "^1.8.0",
     "@types/sqlite3": "^3.1.8",
     "argparse": "^2.0.1",
-    "ccxt": "^3.0.25",
+    "ccxt": "^3.0.26",
     "discord.js": "^13.14.0",
     "moment": "^2.29.4",
     "sqlite3": "^4.2.0",
