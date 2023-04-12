@@ -111,3 +111,6 @@ built/
 
 # TypeDoc generated documentation folder
 docs/
+
+# sqlite3 database file
+*.db
