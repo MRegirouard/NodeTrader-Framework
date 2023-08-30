@@ -31,8 +31,10 @@ describe('HistDataStore.storeCandles', () =>
 	{
 		const source = new TestHistDataStore()
 		const candleset = new Candleset(new CandleInterval(IntervalUnit.MINUTE, 1), { base: 'BTC', trade: 'USDT' })
-		candleset.addCandle(new Candle(moment(), 0, 0, 0, 0, 0))
-		candleset.addCandle(new Candle(moment(), 1, 1, 1, 1, 1))
+		const candle1 = new Candle(moment(), 0, 0, 0, 0, 0)
+		const candle2 = new Candle(candle1.date.clone().add(1, 'minute'), 1, 1, 1, 1, 1)
+		candleset.addCandle(candle1)
+		candleset.addCandle(candle2)
 		await source.storeCandles(candleset)
 		expect(source.tmpCandleStore.length).toBe(1)
 		expect(source.tmpCandleStore[0].candles.length).toBe(2)
@@ -51,8 +53,10 @@ describe('HistDataStore.storeCandleStream', () =>
 		const stream = new ReadableStream<Candle>({
 			start(controller): void
 			{
-				controller.enqueue(new Candle(moment(), 0, 0, 0, 0, 0))
-				controller.enqueue(new Candle(moment(), 1, 1, 1, 1, 1))
+				const candle1 = new Candle(moment(), 0, 0, 0, 0, 0)
+				const candle2 = new Candle(candle1.date.clone().add(1, 'minute'), 1, 1, 1, 1, 1)
+				controller.enqueue(candle1)
+				controller.enqueue(candle2)
 				controller.close()
 			},
 		})
