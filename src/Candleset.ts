@@ -35,12 +35,25 @@ class Candleset
 	}
 
 	/**
-	 * Adds the given candle to this Candleset
+	 * Adds the given candle to this Candleset, maintaining the sorted order of all candles
 	 * @param candle The candle to add
 	 */
 	public addCandle(candle: Candle): void
 	{
-		this._candles.push(candle)
+		// Insert using binary search
+		let low = 0, high = this._candles.length
+
+		while (low < high)
+		{
+			const mid = Math.floor((low + high) / 2)
+
+			if (this._candles[mid].date.valueOf() < candle.date.valueOf())
+				low = mid + 1
+			else
+				high = mid
+		}
+
+		this._candles.splice(low, 0, candle)
 	}
 }
 
