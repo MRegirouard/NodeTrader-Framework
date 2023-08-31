@@ -17,7 +17,7 @@ jobs:
       uses: PavanMudigonda/lines-of-code-reporter@v1.5
       id: cloc
       with:
-        directory: "src,test"
+        directory: "./src, ./test"
 
     - name: Add Lines of Code Summary
       run: echo "${{ steps.loc.outputs.lines-of-code-summary }}" >> $GITHUB_STEP_SUMMARY
