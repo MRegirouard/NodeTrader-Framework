@@ -7,9 +7,7 @@ import Candle from '../src/Candle'
 function expectSorted(candles: readonly Candle[]): void
 {
 	for (let i = 1; i < candles.length; i++)
-	{
 		expect(candles[i].date.valueOf()).toBeGreaterThanOrEqual(candles[i - 1].date.valueOf())
-	}
 }
 
 describe('Candleset', () =>
@@ -76,7 +74,7 @@ describe('Candleset.addCandle', () =>
 		expect(set.candles).toContain(candle2)
 		expect(set.candles).toContain(candle3)
 	})
-	
+
 	test('should maintain the candles in sorted order when adding earlier candles', () =>
 	{
 		const interval = new CandleInterval(IntervalUnit.MINUTE, 1)
@@ -155,7 +153,8 @@ describe('Candleset.addCandle', () =>
 
 		for (let i = 0; i < 100; i++)
 		{
-			const candle = new Candle(moment(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random())
+			const candle = new Candle(moment(), Math.random(), Math.random(),
+				Math.random(), Math.random(), Math.random())
 			set.addCandle(candle)
 			expectSorted(set.candles)
 		}
