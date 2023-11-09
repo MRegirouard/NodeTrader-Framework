@@ -42,7 +42,7 @@
   "homepage": "https://github.com/MRegirouard/NodeTrader-Framework#readme",
   "dependencies": {
     "@iofate/kucoin-ws": "^1.8.0",
-    "@types/sqlite3": "^3.1.9",
+    "@types/sqlite3": "^3.1.10",
     "argparse": "^2.0.1",
     "ccxt": "^3.1.60",
     "discord.js": "^13.16.0",
