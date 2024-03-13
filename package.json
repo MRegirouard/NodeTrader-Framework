@@ -48,7 +48,7 @@
     "discord.js": "^13.16.0",
     "moment": "^2.29.4",
     "sqlite3": "^4.2.0",
-    "ts-mixer": "^6.0.3",
+    "ts-mixer": "^6.0.4",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^4.7.1"
   },
